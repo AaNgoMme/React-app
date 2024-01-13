@@ -1,0 +1,18 @@
+.cardsList {
+    background-color: var(--white);
+    padding: 0px;
+}
+
+@media all and (min-width: 1024px) {
+    .cardsList {
+        background-color: var(--white);
+        padding: 30px;
+    }
+}
+
+@media all and (min-width: 1540px) {
+    .cardsList {
+        background-color: var(--white);
+        padding: 60px;
+    }
+}

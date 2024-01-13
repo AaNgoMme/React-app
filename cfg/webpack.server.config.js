@@ -1,4 +1,5 @@
 const path = require('path')
+const { DefinePlugin } = require('webpack')
 const nodeExternals = require('webpack-node-externals')
 
 const NODE_ENV = process.env.NODE_ENV
@@ -17,12 +18,34 @@ module.exports = {
     },
     externals: [nodeExternals()],
     module: {
-        rules: [{
+        rules: [
+            {
             test: /\.[jt]sx?$/,
             use: ['ts-loader']
-        }]
+            }, {
+                test:/\.css$/,
+                use: [
+                    {
+                        loader: 'css-loader',
+                        options: {
+                            modules: {
+                                mode: 'local',
+                                localIdentName: '[name]__[local]--[hash:base64:5]',
+                                exportOnlyLocals: true,
+                            },
+                        }
+                    }
+                ],
+                exclude: GLOBAL_CSS_REGEXP
+            },
+            {
+                test: GLOBAL_CSS_REGEXP,
+                use: ['css-loader']
+            }
+        ]
     },
     optimization: {
         minimize: false,
-    }
+    },
+    plugins: [ new DefinePlugin({'process.env.CLIENT_ID': `'${process.env.CLIENT_ID}'`})]
 }
