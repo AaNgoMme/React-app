@@ -1,0 +1,95 @@
+.controls {
+    padding: 10px 20px;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.karmaValue {
+    padding: 0 4px;
+    color: var(--grayC4);
+}
+
+.down {
+    transform: rotate(180deg);
+}
+
+.commentsButton {
+    display: flex;
+    align-items: normal;
+}
+
+.commentsButton * {
+    color: var(--grayC4);
+}
+
+.commentsNumber {
+    padding: 0 0 0 6px;
+    font-size: 12px;
+    line-height: 14px;
+}
+
+.shareButton {
+    width: 20px;
+    height: 20px;
+}
+
+.saveButton {
+    padding-left: 7px;
+    width: 20px;
+    height: 20px;
+}
+
+@media all and (min-width: 1024px) {
+    .controls {
+        order: 3;
+        flex: 0 0;
+        margin: 0;
+        padding: 0;
+    }
+
+    .karmaCounter {
+        position: absolute;
+        right: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-flow: column nowrap;
+    }
+
+    .karmaValue {
+        padding: 4px 0px;
+        font-size: 14px;
+        line-height: 16px;
+        color: var(--black);
+    }
+
+    .commentsButton {
+        display: none;
+    }
+
+    .actions {
+        display: none;
+    }
+}
+
+@media all and (min-width: 1540px) {
+
+    .karmaCounter {
+        position: absolute;
+        right: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-flow: column nowrap;
+    }
+
+    .karmaCounter > button.up:hover > svg > path {
+        fill: var(--green)
+    }
+
+    .karmaCounter > button.down:hover > svg > path {
+        fill: var(--orange);
+    }
+}
