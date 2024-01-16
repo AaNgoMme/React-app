@@ -1,14 +1,23 @@
-.menuItemsList {
+/* .menuItemsList {
     padding: 0 20px;
-}
+} */
 
 .menuItem {
-    padding: 12px 0;
+    padding: 12px 20px;
     display: flex;
     flex-flow: row nowrap;
     align-items: center;
     font-size: 12px;
     color: var(--gray99);
+    cursor: pointer;
+}
+
+.menuItem:hover {
+    background-color: var(--grayEC);
+}
+
+.menuItemDesktop {
+    display: none;
 }
 
 .menuItem > svg {
@@ -19,4 +28,18 @@
     height: 1px;
     width: 100%;
     background-color: var(--grayEC);
+}
+
+.dividerDesktop {
+    display: none;
+}
+
+@media all and (min-width: 1024px) {
+    .menuItemDesktop {
+        display: flex;
+    }
+
+    .dividerDesktop {
+        display: flex;
+    }
 }

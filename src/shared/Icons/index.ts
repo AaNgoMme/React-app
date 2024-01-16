@@ -1,3 +1,7 @@
 export * from './MenuIcon'
 export * from './BlockIcon'
 export * from './WarninhIcon'
+export * from './CommentIcon'
+export * from './ShareIcon'
+export * from './SaveIcon'
+export * from './IconAnon'

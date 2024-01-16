@@ -26,6 +26,7 @@
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
     border-radius: 3px;
     background-color: var(--white);
+    z-index: 2;
 }
 
 .closeButton {
@@ -46,6 +47,11 @@
     .menuButton {
         align-self: center;
         transform: rotate(90deg);
+    }
+
+    .dropdown {
+        right: -60px;
+        top: 20px;
     }
 }
 

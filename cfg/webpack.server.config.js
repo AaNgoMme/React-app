@@ -3,6 +3,7 @@ const { DefinePlugin } = require('webpack')
 const nodeExternals = require('webpack-node-externals')
 
 const NODE_ENV = process.env.NODE_ENV
+const IS_DEV = NODE_ENV === 'development'
 const GLOBAL_CSS_REGEXP = /\.global\.css$/
 
 module.exports = {
@@ -47,5 +48,6 @@ module.exports = {
     optimization: {
         minimize: false,
     },
+    devtool: IS_DEV ? 'eval' : false,
     plugins: [ new DefinePlugin({'process.env.CLIENT_ID': `'${process.env.CLIENT_ID}'`})]
 }
