@@ -1,7 +1,11 @@
 import React from 'react';
 import styles from './textcontent.css';
+import { Post } from '../../Post';
 
 export function TextContent() {
+
+  const [isModalOpend, setIsModalOpend] = React.useState(false)
+   
   return (
     <div className={styles.textContent}>
       <div className={styles.metaData}>
@@ -18,10 +22,14 @@ export function TextContent() {
         </span>
       </div>
       <h2 className={styles.title}>
-        <a href="#post-url" className={styles.postLink}>
+        <a href="#post-url" className={styles.postLink} onClick={() => setIsModalOpend(true)}>
           Очень большое дерово на фоне лема и которое обнимает какой-то тип и
         </a>
       </h2>
+      
+      {isModalOpend && (
+        <Post onClose={() => setIsModalOpend(false)} />
+      )}
     </div>
   );
 }
