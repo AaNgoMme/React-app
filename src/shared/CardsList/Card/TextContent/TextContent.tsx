@@ -22,13 +22,18 @@ export function TextContent() {
         </span>
       </div>
       <h2 className={styles.title}>
-        <a href="#post-url" className={styles.postLink} onClick={() => setIsModalOpend(true)}>
+        <a href="#post-url" className={styles.postLink} onClick={(e) => {
+          e.stopPropagation()
+          setIsModalOpend(true)}
+          }>
           Очень большое дерово на фоне лема и которое обнимает какой-то тип и
         </a>
       </h2>
       
       {isModalOpend && (
-        <Post onClose={() => setIsModalOpend(false)} />
+        <Post onClose={() => {
+          setIsModalOpend(false)
+        }} />
       )}
     </div>
   );

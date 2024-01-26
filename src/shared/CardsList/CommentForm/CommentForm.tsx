@@ -1,12 +1,18 @@
 import React, { ChangeEvent, FormEvent, useContext, useState} from 'react';
 import styles from './commentform.css';
-import { commentContext } from '../../context/commentContext';
+import { useSelector, useDispatch } from 'react-redux'
+import { RootState, updateComment } from '../../../store';
 
 export function CommentForm() {
-  const { value, onChange} = useContext(commentContext)
+
+  const value = useSelector<RootState, string>(state => state.commentText)
+  const dispatch = useDispatch()
+
+/*   const { value, onChange} = useContext(commentContext) */
 
   function handleChange(event: ChangeEvent<HTMLTextAreaElement>) {
-    onChange(event.target.value)
+    /* onChange(event.target.value) */
+    dispatch(updateComment(event.target.value))
   }
 
   function handleSubmit(event: FormEvent) {

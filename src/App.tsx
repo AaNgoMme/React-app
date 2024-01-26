@@ -14,6 +14,13 @@ import { tokenContext } from './shared/context/tokenContext'
 import { UserContextProvider, userContext } from './shared/context/userContext'
 import { commentContext } from './shared/context/commentContext'
 
+import { rootReducer } from './store'
+import { legacy_createStore } from 'redux'
+import { Provider } from 'react-redux'
+import { composeWithDevTools } from 'redux-devtools-extension'
+
+
+const store = legacy_createStore(rootReducer, composeWithDevTools())
 
 const LIST = [
     { text: 'Что то там' },
@@ -33,16 +40,12 @@ function AppComponent() {
     }
 
     const [token] = useToken()
-    const [commentValue, setCommentValue] = useState('')
-
-    const CommentProvider = commentContext.Provider
     const TokenProvider = tokenContext.Provider
 
     return (
-
+        <Provider store={store}>
             <TokenProvider value={token}>
                 <UserContextProvider>
-                    <CommentProvider value={{ value: commentValue, onChange: setCommentValue }}>
                         <Layout>
                             <Header />
                             <Content>
@@ -69,10 +72,9 @@ function AppComponent() {
                                 </Text>
                             </Content>
                         </Layout>
-                    </CommentProvider>
                 </UserContextProvider>
             </TokenProvider>
-
+        </Provider>
     )
 }
 

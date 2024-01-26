@@ -625,7 +625,11 @@ const Text_1 = __webpack_require__(/*! ./shared/Text */ "./src/shared/Text/index
 const useToken_1 = __webpack_require__(/*! ./hooks/useToken */ "./src/hooks/useToken.ts");
 const tokenContext_1 = __webpack_require__(/*! ./shared/context/tokenContext */ "./src/shared/context/tokenContext.ts");
 const userContext_1 = __webpack_require__(/*! ./shared/context/userContext */ "./src/shared/context/userContext.tsx");
-const commentContext_1 = __webpack_require__(/*! ./shared/context/commentContext */ "./src/shared/context/commentContext.ts");
+const store_1 = __webpack_require__(/*! ./store */ "./src/store.ts");
+const redux_1 = __webpack_require__(/*! redux */ "redux");
+const react_redux_1 = __webpack_require__(/*! react-redux */ "react-redux");
+const redux_devtools_extension_1 = __webpack_require__(/*! redux-devtools-extension */ "redux-devtools-extension");
+const store = (0, redux_1.legacy_createStore)(store_1.rootReducer, (0, redux_devtools_extension_1.composeWithDevTools)());
 const LIST = [
     { text: 'Что то там' },
     { text: 'Ещё что то там' },
@@ -641,12 +645,10 @@ function AppComponent() {
         setList(list.concat((0, genereteRandomIndex_1.generateID)({ text: (0, genereteRandomIndex_1.generateRandomString)() })));
     };
     const [token] = (0, useToken_1.useToken)();
-    const [commentValue, setCommentValue] = (0, react_1.useState)('');
-    const CommentProvider = commentContext_1.commentContext.Provider;
     const TokenProvider = tokenContext_1.tokenContext.Provider;
-    return (react_1.default.createElement(TokenProvider, { value: token },
-        react_1.default.createElement(userContext_1.UserContextProvider, null,
-            react_1.default.createElement(CommentProvider, { value: { value: commentValue, onChange: setCommentValue } },
+    return (react_1.default.createElement(react_redux_1.Provider, { store: store },
+        react_1.default.createElement(TokenProvider, { value: token },
+            react_1.default.createElement(userContext_1.UserContextProvider, null,
                 react_1.default.createElement(Layout_1.Layout, null,
                     react_1.default.createElement(Header_1.Header, null),
                     react_1.default.createElement(Content_1.Content, null,
@@ -1101,8 +1103,13 @@ function TextContent() {
                 react_1.default.createElement("span", { className: textcontent_css_1.default.publishedLabel }, "\u043E\u043F\u0443\u0431\u043B\u0438\u043A\u043E\u0432\u0430\u043D\u043E"),
                 "4 \u0427\u0430\u0441\u0430 \u043D\u0430\u0437\u0430\u0434")),
         react_1.default.createElement("h2", { className: textcontent_css_1.default.title },
-            react_1.default.createElement("a", { href: "#post-url", className: textcontent_css_1.default.postLink, onClick: () => setIsModalOpend(true) }, "\u041E\u0447\u0435\u043D\u044C \u0431\u043E\u043B\u044C\u0448\u043E\u0435 \u0434\u0435\u0440\u043E\u0432\u043E \u043D\u0430 \u0444\u043E\u043D\u0435 \u043B\u0435\u043C\u0430 \u0438 \u043A\u043E\u0442\u043E\u0440\u043E\u0435 \u043E\u0431\u043D\u0438\u043C\u0430\u0435\u0442 \u043A\u0430\u043A\u043E\u0439-\u0442\u043E \u0442\u0438\u043F \u0438")),
-        isModalOpend && (react_1.default.createElement(Post_1.Post, { onClose: () => setIsModalOpend(false) }))));
+            react_1.default.createElement("a", { href: "#post-url", className: textcontent_css_1.default.postLink, onClick: (e) => {
+                    e.stopPropagation();
+                    setIsModalOpend(true);
+                } }, "\u041E\u0447\u0435\u043D\u044C \u0431\u043E\u043B\u044C\u0448\u043E\u0435 \u0434\u0435\u0440\u043E\u0432\u043E \u043D\u0430 \u0444\u043E\u043D\u0435 \u043B\u0435\u043C\u0430 \u0438 \u043A\u043E\u0442\u043E\u0440\u043E\u0435 \u043E\u0431\u043D\u0438\u043C\u0430\u0435\u0442 \u043A\u0430\u043A\u043E\u0439-\u0442\u043E \u0442\u0438\u043F \u0438")),
+        isModalOpend && (react_1.default.createElement(Post_1.Post, { onClose: () => {
+                setIsModalOpend(false);
+            } }))));
 }
 exports.TextContent = TextContent;
 
@@ -1168,41 +1175,22 @@ exports.CardsList = CardsList;
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.CommentForm = void 0;
-const react_1 = __importStar(__webpack_require__(/*! react */ "react"));
+const react_1 = __importDefault(__webpack_require__(/*! react */ "react"));
 const commentform_css_1 = __importDefault(__webpack_require__(/*! ./commentform.css */ "./src/shared/CardsList/CommentForm/commentform.css"));
-const commentContext_1 = __webpack_require__(/*! ../../context/commentContext */ "./src/shared/context/commentContext.ts");
+const react_redux_1 = __webpack_require__(/*! react-redux */ "react-redux");
+const store_1 = __webpack_require__(/*! ../../../store */ "./src/store.ts");
 function CommentForm() {
-    const { value, onChange } = (0, react_1.useContext)(commentContext_1.commentContext);
+    const value = (0, react_redux_1.useSelector)(state => state.commentText);
+    const dispatch = (0, react_redux_1.useDispatch)();
+    /*   const { value, onChange} = useContext(commentContext) */
     function handleChange(event) {
-        onChange(event.target.value);
+        /* onChange(event.target.value) */
+        dispatch((0, store_1.updateComment)(event.target.value));
     }
     function handleSubmit(event) {
         event.preventDefault();
@@ -2161,24 +2149,6 @@ __exportStar(__webpack_require__(/*! ./Text */ "./src/shared/Text/Text.tsx"), ex
 
 /***/ }),
 
-/***/ "./src/shared/context/commentContext.ts":
-/*!**********************************************!*\
-  !*** ./src/shared/context/commentContext.ts ***!
-  \**********************************************/
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
-
-
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.commentContext = void 0;
-const react_1 = __importDefault(__webpack_require__(/*! react */ "react"));
-exports.commentContext = react_1.default.createContext({ value: '', onChange: () => { } });
-
-
-/***/ }),
-
 /***/ "./src/shared/context/tokenContext.ts":
 /*!********************************************!*\
   !*** ./src/shared/context/tokenContext.ts ***!
@@ -2217,6 +2187,37 @@ function UserContextProvider({ children }) {
     return (react_1.default.createElement(exports.userContext.Provider, { value: data }, children));
 }
 exports.UserContextProvider = UserContextProvider;
+
+
+/***/ }),
+
+/***/ "./src/store.ts":
+/*!**********************!*\
+  !*** ./src/store.ts ***!
+  \**********************/
+/***/ ((__unused_webpack_module, exports) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.rootReducer = exports.updateComment = void 0;
+const initialState = {
+    commentText: ''
+};
+const UPDATE_COMMENT = 'UPDATE_COMMENT';
+const updateComment = (text) => ({
+    type: UPDATE_COMMENT,
+    text,
+});
+exports.updateComment = updateComment;
+const rootReducer = (state = initialState, action) => {
+    switch (action.type) {
+        case 'UPDATE_COMMENT':
+            return Object.assign(Object.assign({}, state), { commentText: action.text });
+        default:
+            return state;
+    }
+};
+exports.rootReducer = rootReducer;
 
 
 /***/ }),
@@ -2333,6 +2334,36 @@ module.exports = require("react-dom/server");
 /***/ ((module) => {
 
 module.exports = require("react-hot-loader/root");
+
+/***/ }),
+
+/***/ "react-redux":
+/*!******************************!*\
+  !*** external "react-redux" ***!
+  \******************************/
+/***/ ((module) => {
+
+module.exports = require("react-redux");
+
+/***/ }),
+
+/***/ "redux":
+/*!************************!*\
+  !*** external "redux" ***!
+  \************************/
+/***/ ((module) => {
+
+module.exports = require("redux");
+
+/***/ }),
+
+/***/ "redux-devtools-extension":
+/*!*******************************************!*\
+  !*** external "redux-devtools-extension" ***!
+  \*******************************************/
+/***/ ((module) => {
+
+module.exports = require("redux-devtools-extension");
 
 /***/ })
 
