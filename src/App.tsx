@@ -9,18 +9,32 @@ import { GenericList } from './shared/GenericList'
 import { generateID, generateRandomString } from './utils/react/genereteRandomIndex'
 import { Dropdown } from './shared/Dropdown'
 import { EColor, Text } from './shared/Text'
-import { useToken } from './hooks/useToken'
-import { tokenContext } from './shared/context/tokenContext'
-import { UserContextProvider, userContext } from './shared/context/userContext'
-import { commentContext } from './shared/context/commentContext'
 
-import { rootReducer } from './store'
-import { legacy_createStore } from 'redux'
+import { rootReducer, setToken } from './store/store'
+import { legacy_createStore, applyMiddleware, Middleware, Action } from 'redux'
 import { Provider } from 'react-redux'
 import { composeWithDevTools } from 'redux-devtools-extension'
+import { thunk } from 'redux-thunk'
 
 
-const store = legacy_createStore(rootReducer, composeWithDevTools())
+/* const logger: Middleware = (store) => (next) => (action) => {
+    console.log('dispatching:', action)
+    next(action)
+} */
+
+/* export const timeout = (): ThunkAction<void, RootState, unknown, Action<string>> => (dispatch) => {
+    dispatch({ type: 'START' })
+    setTimeout(() => {
+        dispatch({ type: 'FINISH' })
+    }, 1500)
+} */
+
+
+
+
+const store = legacy_createStore(rootReducer, composeWithDevTools(
+    applyMiddleware(thunk)
+))
 
 const LIST = [
     { text: 'Что то там' },
@@ -39,13 +53,8 @@ function AppComponent() {
         setList(list.concat(generateID({ text: generateRandomString() })))
     }
 
-    const [token] = useToken()
-    const TokenProvider = tokenContext.Provider
-
     return (
         <Provider store={store}>
-            <TokenProvider value={token}>
-                <UserContextProvider>
                         <Layout>
                             <Header />
                             <Content>
@@ -72,8 +81,6 @@ function AppComponent() {
                                 </Text>
                             </Content>
                         </Layout>
-                </UserContextProvider>
-            </TokenProvider>
         </Provider>
     )
 }

@@ -622,14 +622,22 @@ const GenericList_1 = __webpack_require__(/*! ./shared/GenericList */ "./src/sha
 const genereteRandomIndex_1 = __webpack_require__(/*! ./utils/react/genereteRandomIndex */ "./src/utils/react/genereteRandomIndex.ts");
 const Dropdown_1 = __webpack_require__(/*! ./shared/Dropdown */ "./src/shared/Dropdown/index.ts");
 const Text_1 = __webpack_require__(/*! ./shared/Text */ "./src/shared/Text/index.ts");
-const useToken_1 = __webpack_require__(/*! ./hooks/useToken */ "./src/hooks/useToken.ts");
-const tokenContext_1 = __webpack_require__(/*! ./shared/context/tokenContext */ "./src/shared/context/tokenContext.ts");
-const userContext_1 = __webpack_require__(/*! ./shared/context/userContext */ "./src/shared/context/userContext.tsx");
-const store_1 = __webpack_require__(/*! ./store */ "./src/store.ts");
+const store_1 = __webpack_require__(/*! ./store/store */ "./src/store/store.ts");
 const redux_1 = __webpack_require__(/*! redux */ "redux");
 const react_redux_1 = __webpack_require__(/*! react-redux */ "react-redux");
 const redux_devtools_extension_1 = __webpack_require__(/*! redux-devtools-extension */ "redux-devtools-extension");
-const store = (0, redux_1.legacy_createStore)(store_1.rootReducer, (0, redux_devtools_extension_1.composeWithDevTools)());
+const redux_thunk_1 = __webpack_require__(/*! redux-thunk */ "redux-thunk");
+/* const logger: Middleware = (store) => (next) => (action) => {
+    console.log('dispatching:', action)
+    next(action)
+} */
+/* export const timeout = (): ThunkAction<void, RootState, unknown, Action<string>> => (dispatch) => {
+    dispatch({ type: 'START' })
+    setTimeout(() => {
+        dispatch({ type: 'FINISH' })
+    }, 1500)
+} */
+const store = (0, redux_1.legacy_createStore)(store_1.rootReducer, (0, redux_devtools_extension_1.composeWithDevTools)((0, redux_1.applyMiddleware)(redux_thunk_1.thunk)));
 const LIST = [
     { text: 'Что то там' },
     { text: 'Ещё что то там' },
@@ -644,52 +652,24 @@ function AppComponent() {
     const handleAdd = () => {
         setList(list.concat((0, genereteRandomIndex_1.generateID)({ text: (0, genereteRandomIndex_1.generateRandomString)() })));
     };
-    const [token] = (0, useToken_1.useToken)();
-    const TokenProvider = tokenContext_1.tokenContext.Provider;
     return (react_1.default.createElement(react_redux_1.Provider, { store: store },
-        react_1.default.createElement(TokenProvider, { value: token },
-            react_1.default.createElement(userContext_1.UserContextProvider, null,
-                react_1.default.createElement(Layout_1.Layout, null,
-                    react_1.default.createElement(Header_1.Header, null),
-                    react_1.default.createElement(Content_1.Content, null,
-                        react_1.default.createElement(CardsList_1.CardsList, null),
-                        react_1.default.createElement(GenericList_1.GenericList, { list: list.map((item) => (Object.assign(Object.assign({}, item), { onClick: handleItemClick }))) }),
-                        react_1.default.createElement("div", { style: { padding: 20 } },
-                            react_1.default.createElement("br", null),
-                            react_1.default.createElement(Dropdown_1.Dropdown, { isOpen: false, button: react_1.default.createElement("button", null, "Open list") },
-                                react_1.default.createElement("ul", null,
-                                    react_1.default.createElement("li", null, "1"),
-                                    react_1.default.createElement("li", null, "2"),
-                                    react_1.default.createElement("li", null, "3"),
-                                    react_1.default.createElement("li", null, "4")))),
-                        react_1.default.createElement(Text_1.Text, { As: 'h1', size: 28, color: Text_1.EColor.orange }, "\u042D\u0442\u043E \u044D\u0442\u043E"),
-                        react_1.default.createElement(Text_1.Text, { size: 28, color: Text_1.EColor.green }, "\u042D\u0442\u043E \u0442\u043E")))))));
+        react_1.default.createElement(Layout_1.Layout, null,
+            react_1.default.createElement(Header_1.Header, null),
+            react_1.default.createElement(Content_1.Content, null,
+                react_1.default.createElement(CardsList_1.CardsList, null),
+                react_1.default.createElement(GenericList_1.GenericList, { list: list.map((item) => (Object.assign(Object.assign({}, item), { onClick: handleItemClick }))) }),
+                react_1.default.createElement("div", { style: { padding: 20 } },
+                    react_1.default.createElement("br", null),
+                    react_1.default.createElement(Dropdown_1.Dropdown, { isOpen: false, button: react_1.default.createElement("button", null, "Open list") },
+                        react_1.default.createElement("ul", null,
+                            react_1.default.createElement("li", null, "1"),
+                            react_1.default.createElement("li", null, "2"),
+                            react_1.default.createElement("li", null, "3"),
+                            react_1.default.createElement("li", null, "4")))),
+                react_1.default.createElement(Text_1.Text, { As: 'h1', size: 28, color: Text_1.EColor.orange }, "\u042D\u0442\u043E \u044D\u0442\u043E"),
+                react_1.default.createElement(Text_1.Text, { size: 28, color: Text_1.EColor.green }, "\u042D\u0442\u043E \u0442\u043E")))));
 }
 exports.App = (0, root_1.hot)(() => react_1.default.createElement(AppComponent, null));
-
-
-/***/ }),
-
-/***/ "./src/hooks/useToken.ts":
-/*!*******************************!*\
-  !*** ./src/hooks/useToken.ts ***!
-  \*******************************/
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
-
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.useToken = void 0;
-const react_1 = __webpack_require__(/*! react */ "react");
-function useToken() {
-    const [token, setToken] = (0, react_1.useState)('');
-    (0, react_1.useEffect)(() => {
-        if (window.__token__) {
-            setToken(window.__token__);
-        }
-    }, []);
-    return [token];
-}
-exports.useToken = useToken;
 
 
 /***/ }),
@@ -698,31 +678,31 @@ exports.useToken = useToken;
 /*!**********************************!*\
   !*** ./src/hooks/useUserData.ts ***!
   \**********************************/
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.useUserData = void 0;
 const react_1 = __webpack_require__(/*! react */ "react");
-const axios_1 = __importDefault(__webpack_require__(/*! axios */ "axios"));
-const tokenContext_1 = __webpack_require__(/*! ../shared/context/tokenContext */ "./src/shared/context/tokenContext.ts");
+const react_redux_1 = __webpack_require__(/*! react-redux */ "react-redux");
+const action_1 = __webpack_require__(/*! ../store/me/action */ "./src/store/me/action.ts");
+const saveToken_1 = __webpack_require__(/*! ../store/saveToken */ "./src/store/saveToken.ts");
 function useUserData() {
-    const [data, setData] = (0, react_1.useState)({});
-    const token = (0, react_1.useContext)(tokenContext_1.tokenContext);
+    /*  const [data, setData] = useState<IUserData>({}) */
+    /* const token = useContext(tokenContext) */
+    const data = (0, react_redux_1.useSelector)(state => state.me.data);
+    const loading = (0, react_redux_1.useSelector)(state => state.me.loading);
+    const token = (0, react_redux_1.useSelector)(state => state.token);
+    const dispatch = (0, react_redux_1.useDispatch)();
+    //@ts-ignore
+    dispatch((0, saveToken_1.saveToken)());
     (0, react_1.useEffect)(() => {
-        axios_1.default.get('https://oauth.reddit.com/api/v1/me', {
-            headers: { Authorization: `bearer ${token}` }
-        })
-            .then((resp) => {
-            const userData = resp.data;
-            setData({ name: userData.name, iconImg: userData.icon_img.split('?')[0] });
-        })
-            .catch(console.log);
+        if (!token)
+            return;
+        //@ts-ignore
+        dispatch((0, action_1.meRequestAsync)());
     }, [token]);
-    return [data];
+    return { data, loading };
 }
 exports.useUserData = useUserData;
 
@@ -1183,7 +1163,7 @@ exports.CommentForm = void 0;
 const react_1 = __importDefault(__webpack_require__(/*! react */ "react"));
 const commentform_css_1 = __importDefault(__webpack_require__(/*! ./commentform.css */ "./src/shared/CardsList/CommentForm/commentform.css"));
 const react_redux_1 = __webpack_require__(/*! react-redux */ "react-redux");
-const store_1 = __webpack_require__(/*! ../../../store */ "./src/store.ts");
+const store_1 = __webpack_require__(/*! ../../../store/store */ "./src/store/store.ts");
 function CommentForm() {
     const value = (0, react_redux_1.useSelector)(state => state.commentText);
     const dispatch = (0, react_redux_1.useDispatch)();
@@ -1548,42 +1528,19 @@ exports.Header = Header;
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.SeachBlock = void 0;
-const react_1 = __importStar(__webpack_require__(/*! react */ "react"));
+const react_1 = __importDefault(__webpack_require__(/*! react */ "react"));
 const seachblock_css_1 = __importDefault(__webpack_require__(/*! ./seachblock.css */ "./src/shared/Header/SeachBlock/seachblock.css"));
 const UserBlock_1 = __webpack_require__(/*! ./UserBlock */ "./src/shared/Header/SeachBlock/UserBlock/index.ts");
-const userContext_1 = __webpack_require__(/*! ../../context/userContext */ "./src/shared/context/userContext.tsx");
+const useUserData_1 = __webpack_require__(/*! ../../../hooks/useUserData */ "./src/hooks/useUserData.ts");
 function SeachBlock() {
-    const userData = (0, react_1.useContext)(userContext_1.userContext);
+    const { data, loading } = (0, useUserData_1.useUserData)();
     return (react_1.default.createElement("div", { className: seachblock_css_1.default.searchBlock },
-        react_1.default.createElement(UserBlock_1.UserBlock, { avatarSrc: userData.iconImg, username: userData.name })));
+        react_1.default.createElement(UserBlock_1.UserBlock, { avatarSrc: data.iconImg, username: data.name, loading: loading })));
 }
 exports.SeachBlock = SeachBlock;
 
@@ -1606,13 +1563,12 @@ const react_1 = __importDefault(__webpack_require__(/*! react */ "react"));
 const userblock_css_1 = __importDefault(__webpack_require__(/*! ./userblock.css */ "./src/shared/Header/SeachBlock/UserBlock/userblock.css"));
 const Icons_1 = __webpack_require__(/*! ../../../Icons */ "./src/shared/Icons/index.ts");
 const Text_1 = __webpack_require__(/*! ../../../Text */ "./src/shared/Text/index.ts");
-function UserBlock({ avatarSrc, username }) {
+function UserBlock({ avatarSrc, username, loading }) {
     return (react_1.default.createElement("a", { className: userblock_css_1.default.userBox, href: "https://www.reddit.com/api/v1/authorize?client_id=CsIig-AA7L5j8R4E3K2cUg&response_type=code&state=random_string&redirect_uri=http://localhost:3000/auth&duration=permanent&scope=read submit identity" },
         react_1.default.createElement("div", { className: userblock_css_1.default.avatarBox }, avatarSrc
             ? react_1.default.createElement("img", { src: avatarSrc, className: userblock_css_1.default.avatarImage })
             : react_1.default.createElement(Icons_1.IconAnon, null)),
-        react_1.default.createElement("div", { className: userblock_css_1.default.username },
-            react_1.default.createElement(Text_1.Text, { size: 20, color: username ? Text_1.EColor.black : Text_1.EColor.gray99 }, username || 'Аноним'))));
+        react_1.default.createElement("div", { className: userblock_css_1.default.username }, loading ? (react_1.default.createElement(Text_1.Text, { size: 20, color: Text_1.EColor.gray99 }, "\u0437\u0430\u0433\u0440\u0443\u0437\u043A\u0430...")) : (react_1.default.createElement(Text_1.Text, { size: 20, color: username ? Text_1.EColor.black : Text_1.EColor.gray99 }, username || 'Аноним')))));
 }
 exports.UserBlock = UserBlock;
 
@@ -2149,10 +2105,10 @@ __exportStar(__webpack_require__(/*! ./Text */ "./src/shared/Text/Text.tsx"), ex
 
 /***/ }),
 
-/***/ "./src/shared/context/tokenContext.ts":
-/*!********************************************!*\
-  !*** ./src/shared/context/tokenContext.ts ***!
-  \********************************************/
+/***/ "./src/store/me/action.ts":
+/*!********************************!*\
+  !*** ./src/store/me/action.ts ***!
+  \********************************/
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
@@ -2160,48 +2116,121 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.tokenContext = void 0;
-const react_1 = __importDefault(__webpack_require__(/*! react */ "react"));
-exports.tokenContext = react_1.default.createContext('');
-
-
-/***/ }),
-
-/***/ "./src/shared/context/userContext.tsx":
-/*!********************************************!*\
-  !*** ./src/shared/context/userContext.tsx ***!
-  \********************************************/
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
-
-
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
+exports.meRequestAsync = exports.meRequestError = exports.ME_REQUEST_ERROR = exports.meRequestSuccess = exports.ME_REQUEST_SUCCESS = exports.meRequest = exports.ME_REQUEST = void 0;
+const axios_1 = __importDefault(__webpack_require__(/*! axios */ "axios"));
+exports.ME_REQUEST = 'ME_REQUEST';
+const meRequest = () => ({
+    type: exports.ME_REQUEST
+});
+exports.meRequest = meRequest;
+exports.ME_REQUEST_SUCCESS = 'ME_REQUEST_SUCCESS';
+const meRequestSuccess = (data) => ({
+    type: exports.ME_REQUEST_SUCCESS,
+    data
+});
+exports.meRequestSuccess = meRequestSuccess;
+exports.ME_REQUEST_ERROR = 'ME_REQUEST_ERROR';
+const meRequestError = (error) => ({
+    type: exports.ME_REQUEST_ERROR,
+    error
+});
+exports.meRequestError = meRequestError;
+const meRequestAsync = () => (dispatch, getState) => {
+    dispatch((0, exports.meRequest)());
+    axios_1.default.get('https://oauth.reddit.com/api/v1/me', {
+        headers: { Authorization: `bearer ${getState().token}` }
+    })
+        .then((resp) => {
+        const userData = resp.data;
+        const myUserData = { name: userData.name, iconImg: userData.icon_img.split('?')[0] };
+        /* setData(myUserData) */
+        dispatch((0, exports.meRequestSuccess)(myUserData));
+    })
+        .catch((error) => {
+        console.log(error);
+        dispatch((0, exports.meRequestError)(String(error)));
+    });
 };
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.UserContextProvider = exports.userContext = void 0;
-const react_1 = __importDefault(__webpack_require__(/*! react */ "react"));
-const useUserData_1 = __webpack_require__(/*! ../../hooks/useUserData */ "./src/hooks/useUserData.ts");
-exports.userContext = react_1.default.createContext({});
-function UserContextProvider({ children }) {
-    const [data] = (0, useUserData_1.useUserData)();
-    return (react_1.default.createElement(exports.userContext.Provider, { value: data }, children));
-}
-exports.UserContextProvider = UserContextProvider;
+exports.meRequestAsync = meRequestAsync;
 
 
 /***/ }),
 
-/***/ "./src/store.ts":
-/*!**********************!*\
-  !*** ./src/store.ts ***!
-  \**********************/
-/***/ ((__unused_webpack_module, exports) => {
+/***/ "./src/store/me/reducer.ts":
+/*!*********************************!*\
+  !*** ./src/store/me/reducer.ts ***!
+  \*********************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.rootReducer = exports.updateComment = void 0;
+exports.meReducer = void 0;
+const action_1 = __webpack_require__(/*! ./action */ "./src/store/me/action.ts");
+const meReducer = (state, action) => {
+    switch (action.type) {
+        case action_1.ME_REQUEST:
+            return Object.assign(Object.assign({}, state), { loading: true });
+        case action_1.ME_REQUEST_ERROR:
+            return Object.assign(Object.assign({}, state), { error: action.error, loading: false });
+        case action_1.ME_REQUEST_SUCCESS:
+            return Object.assign(Object.assign({}, state), { data: action.data, loading: false });
+        default:
+            return state;
+    }
+};
+exports.meReducer = meReducer;
+
+
+/***/ }),
+
+/***/ "./src/store/saveToken.ts":
+/*!********************************!*\
+  !*** ./src/store/saveToken.ts ***!
+  \********************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.saveToken = void 0;
+const react_1 = __webpack_require__(/*! react */ "react");
+const store_1 = __webpack_require__(/*! ./store */ "./src/store/store.ts");
+const saveToken = () => (dispatch) => {
+    (0, react_1.useEffect)(() => {
+        if (window.__token__ == 'undefined') {
+            const token = localStorage.getItem('token') || window.__token__;
+            dispatch((0, store_1.setToken)(token));
+        }
+        if (window.__token__ != 'undefined') {
+            const token = window.__token__;
+            localStorage.setItem('token', token);
+            dispatch((0, store_1.setToken)(token));
+        }
+    }, []);
+};
+exports.saveToken = saveToken;
+
+
+/***/ }),
+
+/***/ "./src/store/store.ts":
+/*!****************************!*\
+  !*** ./src/store/store.ts ***!
+  \****************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.rootReducer = exports.setToken = exports.updateComment = void 0;
+const action_1 = __webpack_require__(/*! ./me/action */ "./src/store/me/action.ts");
+const reducer_1 = __webpack_require__(/*! ./me/reducer */ "./src/store/me/reducer.ts");
 const initialState = {
-    commentText: ''
+    commentText: '',
+    token: '',
+    me: {
+        loading: false,
+        error: '',
+        data: {}
+    }
 };
 const UPDATE_COMMENT = 'UPDATE_COMMENT';
 const updateComment = (text) => ({
@@ -2209,10 +2238,22 @@ const updateComment = (text) => ({
     text,
 });
 exports.updateComment = updateComment;
+const SET_TOKEN = 'SET_TOKEN';
+const setToken = (token) => ({
+    type: SET_TOKEN,
+    token,
+});
+exports.setToken = setToken;
 const rootReducer = (state = initialState, action) => {
     switch (action.type) {
         case 'UPDATE_COMMENT':
             return Object.assign(Object.assign({}, state), { commentText: action.text });
+        case 'SET_TOKEN':
+            return Object.assign(Object.assign({}, state), { token: action.token });
+        case action_1.ME_REQUEST:
+        case action_1.ME_REQUEST_SUCCESS:
+        case action_1.ME_REQUEST_ERROR:
+            return Object.assign(Object.assign({}, state), { me: (0, reducer_1.meReducer)(state.me, action) });
         default:
             return state;
     }
@@ -2364,6 +2405,16 @@ module.exports = require("redux");
 /***/ ((module) => {
 
 module.exports = require("redux-devtools-extension");
+
+/***/ }),
+
+/***/ "redux-thunk":
+/*!******************************!*\
+  !*** external "redux-thunk" ***!
+  \******************************/
+/***/ ((module) => {
+
+module.exports = require("redux-thunk");
 
 /***/ })
 

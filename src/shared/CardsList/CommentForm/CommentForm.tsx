@@ -1,7 +1,7 @@
 import React, { ChangeEvent, FormEvent, useContext, useState} from 'react';
 import styles from './commentform.css';
 import { useSelector, useDispatch } from 'react-redux'
-import { RootState, updateComment } from '../../../store';
+import { RootState, updateComment } from '../../../store/store';
 
 export function CommentForm() {
 

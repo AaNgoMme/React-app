@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+/* import React, { useEffect, useState } from "react"
 
 
 export function useToken() {
@@ -10,4 +10,4 @@ export function useToken() {
         }
     }, [])
     return [token]
-}
+} */
