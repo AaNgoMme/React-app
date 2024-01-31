@@ -4,9 +4,11 @@
     display: flex;
     flex-flow: row wrap;
     justify-content: end;
+    position: relative;
 }
 
 .input {
+    flex: 1 1 100%;
     padding: 15px;
     width: 100%;
     height: 90px;
@@ -16,9 +18,33 @@
     resize: none;
 }
 
+.inputError {
+    flex: 1 1 100%;
+    padding: 15px;
+    width: 100%;
+    height: 90px;
+    color: red;
+    border: 2px solid red;
+    border-radius: 3px;
+    resize: none;
+}
+
+.validateError {
+    position: absolute;
+    left: 0px;
+    bottom: 15px;
+    color: red;
+}
+
 .button {
+    margin-top: 5px;
     padding: 15px 25px;
     background-color: var(--orange);
     color: var(--white);
     border: 0px;
+}
+
+.button:disabled {
+    opacity: 0.5;
+    cursor: default;
 }

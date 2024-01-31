@@ -7,15 +7,13 @@ import { Action } from "redux"
 export const saveToken = (): ThunkAction<void, RootState, unknown, Action<string>> => (dispatch) => {
 
     useEffect(() => {
-    if(window.__token__ == 'undefined') {
-        const token = localStorage.getItem('token') || window.__token__
-        dispatch(setToken(token))
-    } if (window.__token__ != 'undefined') {       
-        const token = window.__token__
-        localStorage.setItem('token', token)
-        dispatch(setToken(token))
-    }
-
-
-}, [])
+        if (window.__token__ == 'undefined') {
+            const token = localStorage.getItem('token') || window.__token__
+            dispatch(setToken(token))
+        } if (window.__token__ != 'undefined') {
+            const token = window.__token__
+            localStorage.setItem('token', token)
+            dispatch(setToken(token))
+        }
+    }, [])
 }

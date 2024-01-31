@@ -225,6 +225,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
 	"form": `commentform__form--wBCIB`,
 	"input": `commentform__input--K4nBR`,
+	"inputError": `commentform__inputError--L32dL`,
+	"validateError": `commentform__validateError--AVq9p`,
 	"button": `commentform__button--juVKG`
 });
 
@@ -1155,12 +1157,35 @@ exports.CardsList = CardsList;
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.CommentForm = void 0;
-const react_1 = __importDefault(__webpack_require__(/*! react */ "react"));
+const react_1 = __importStar(__webpack_require__(/*! react */ "react"));
 const commentform_css_1 = __importDefault(__webpack_require__(/*! ./commentform.css */ "./src/shared/CardsList/CommentForm/commentform.css"));
 const react_redux_1 = __webpack_require__(/*! react-redux */ "react-redux");
 const store_1 = __webpack_require__(/*! ../../../store/store */ "./src/store/store.ts");
@@ -1168,6 +1193,8 @@ function CommentForm() {
     const value = (0, react_redux_1.useSelector)(state => state.commentText);
     const dispatch = (0, react_redux_1.useDispatch)();
     /*   const { value, onChange} = useContext(commentContext) */
+    const [inputTouched, setInputTouched] = (0, react_1.useState)(false);
+    const [inputError, setInputError] = (0, react_1.useState)('');
     function handleChange(event) {
         /* onChange(event.target.value) */
         dispatch((0, store_1.updateComment)(event.target.value));
@@ -1175,9 +1202,23 @@ function CommentForm() {
     function handleSubmit(event) {
         event.preventDefault();
         console.log(value);
+        setInputTouched(true);
+        const isFormValid = !validateValue();
+        if (!isFormValid)
+            return;
+        alert('Отправленно');
+    }
+    function validateValue() {
+        if (value.length <= 3)
+            return 'Введите больше 3-х символов';
+        return '';
+    }
+    function handleBlur(e) {
+        e.target.style.border = '2px solid red';
     }
     return (react_1.default.createElement("form", { className: commentform_css_1.default.form, onSubmit: handleSubmit },
-        react_1.default.createElement("textarea", { className: commentform_css_1.default.input, value: value, onChange: handleChange, placeholder: '\u041E\u0441\u0442\u0430\u0432\u0442\u0435 \u0432\u0430\u0448 \u043A\u043E\u043C\u043C\u0435\u043D\u0442\u0430\u0440\u0438\u0439' }),
+        react_1.default.createElement("textarea", { className: inputTouched && validateValue() ? commentform_css_1.default.inputError : commentform_css_1.default.input, value: value, onChange: handleChange, placeholder: '\u041E\u0441\u0442\u0430\u0432\u0442\u0435 \u0432\u0430\u0448 \u043A\u043E\u043C\u043C\u0435\u043D\u0442\u0430\u0440\u0438\u0439' }),
+        inputTouched && validateValue() && (react_1.default.createElement("div", { className: commentform_css_1.default.validateError }, validateValue())),
         react_1.default.createElement("button", { type: 'submit', className: commentform_css_1.default.button }, "\u041A\u043E\u043C\u0435\u043D\u0442\u0438\u0440\u043E\u0432\u0430\u0442\u044C")));
 }
 exports.CommentForm = CommentForm;
