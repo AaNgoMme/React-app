@@ -2,7 +2,14 @@ import React from 'react';
 import styles from './textcontent.css';
 import { Post } from '../../Post';
 
-export function TextContent() {
+
+interface ICardProps {
+  title: string
+  author: string
+}
+
+
+export function TextContent({ title, author }: ICardProps) {
 
   const [isModalOpend, setIsModalOpend] = React.useState(false)
    
@@ -14,7 +21,7 @@ export function TextContent() {
             className={styles.avatar}
             src="https://cs14.pikabu.ru/post_img/big/2023/02/13/8/1676295806139337963.png"
           />
-          <a href="#user-url" className={styles.username}>Иван Иванов</a>
+          <a href="#user-url" className={styles.username}>{author}</a>
         </div>
         <span className={styles.createdAt}>
           <span className={styles.publishedLabel}>опубликовано</span>
@@ -26,7 +33,7 @@ export function TextContent() {
           e.stopPropagation()
           setIsModalOpend(true)}
           }>
-          Очень большое дерово на фоне лема и которое обнимает какой-то тип и
+          {title}
         </a>
       </h2>
       

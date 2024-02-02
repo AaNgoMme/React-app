@@ -799,10 +799,10 @@ const Menu_1 = __webpack_require__(/*! ./Menu */ "./src/shared/CardsList/Card/Me
 const TextContent_1 = __webpack_require__(/*! ./TextContent */ "./src/shared/CardsList/Card/TextContent/index.ts");
 const Preview_1 = __webpack_require__(/*! ./Preview */ "./src/shared/CardsList/Card/Preview/index.ts");
 const Controls_1 = __webpack_require__(/*! ./Controls */ "./src/shared/CardsList/Card/Controls/index.ts");
-function Card() {
+function Card({ title, author, url }) {
     return (react_1.default.createElement("li", { className: card_css_1.default.card },
-        react_1.default.createElement(TextContent_1.TextContent, null),
-        react_1.default.createElement(Preview_1.Preview, null),
+        react_1.default.createElement(TextContent_1.TextContent, { title: title, author: author }),
+        react_1.default.createElement(Preview_1.Preview, { url: url }),
         react_1.default.createElement(Menu_1.Menu, null),
         react_1.default.createElement(Controls_1.Controls, null)));
 }
@@ -1023,9 +1023,9 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.Preview = void 0;
 const react_1 = __importDefault(__webpack_require__(/*! react */ "react"));
 const preview_css_1 = __importDefault(__webpack_require__(/*! ./preview.css */ "./src/shared/CardsList/Card/Preview/preview.css"));
-function Preview() {
+function Preview({ url }) {
     return (react_1.default.createElement("div", { className: preview_css_1.default.preview },
-        react_1.default.createElement("img", { className: preview_css_1.default.previewImg, src: "https://cdn.botanichka.ru/wp-content/uploads/2021/01/rasteniya-lekarstva-dikie-derevya-01.jpg" })));
+        react_1.default.createElement("img", { className: preview_css_1.default.previewImg, src: url })));
 }
 exports.Preview = Preview;
 
@@ -1074,13 +1074,13 @@ exports.TextContent = void 0;
 const react_1 = __importDefault(__webpack_require__(/*! react */ "react"));
 const textcontent_css_1 = __importDefault(__webpack_require__(/*! ./textcontent.css */ "./src/shared/CardsList/Card/TextContent/textcontent.css"));
 const Post_1 = __webpack_require__(/*! ../../Post */ "./src/shared/CardsList/Post/index.ts");
-function TextContent() {
+function TextContent({ title, author }) {
     const [isModalOpend, setIsModalOpend] = react_1.default.useState(false);
     return (react_1.default.createElement("div", { className: textcontent_css_1.default.textContent },
         react_1.default.createElement("div", { className: textcontent_css_1.default.metaData },
             react_1.default.createElement("div", { className: textcontent_css_1.default.userLink },
                 react_1.default.createElement("img", { className: textcontent_css_1.default.avatar, src: "https://cs14.pikabu.ru/post_img/big/2023/02/13/8/1676295806139337963.png" }),
-                react_1.default.createElement("a", { href: "#user-url", className: textcontent_css_1.default.username }, "\u0418\u0432\u0430\u043D \u0418\u0432\u0430\u043D\u043E\u0432")),
+                react_1.default.createElement("a", { href: "#user-url", className: textcontent_css_1.default.username }, author)),
             react_1.default.createElement("span", { className: textcontent_css_1.default.createdAt },
                 react_1.default.createElement("span", { className: textcontent_css_1.default.publishedLabel }, "\u043E\u043F\u0443\u0431\u043B\u0438\u043A\u043E\u0432\u0430\u043D\u043E"),
                 "4 \u0427\u0430\u0441\u0430 \u043D\u0430\u0437\u0430\u0434")),
@@ -1088,7 +1088,7 @@ function TextContent() {
             react_1.default.createElement("a", { href: "#post-url", className: textcontent_css_1.default.postLink, onClick: (e) => {
                     e.stopPropagation();
                     setIsModalOpend(true);
-                } }, "\u041E\u0447\u0435\u043D\u044C \u0431\u043E\u043B\u044C\u0448\u043E\u0435 \u0434\u0435\u0440\u043E\u0432\u043E \u043D\u0430 \u0444\u043E\u043D\u0435 \u043B\u0435\u043C\u0430 \u0438 \u043A\u043E\u0442\u043E\u0440\u043E\u0435 \u043E\u0431\u043D\u0438\u043C\u0430\u0435\u0442 \u043A\u0430\u043A\u043E\u0439-\u0442\u043E \u0442\u0438\u043F \u0438")),
+                } }, title)),
         isModalOpend && (react_1.default.createElement(Post_1.Post, { onClose: () => {
                 setIsModalOpend(false);
             } }))));
@@ -1132,18 +1132,102 @@ __exportStar(__webpack_require__(/*! ./TextContent */ "./src/shared/CardsList/Ca
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.CardsList = void 0;
-const react_1 = __importDefault(__webpack_require__(/*! react */ "react"));
+const react_1 = __importStar(__webpack_require__(/*! react */ "react"));
 const cardslist_css_1 = __importDefault(__webpack_require__(/*! ./cardslist.css */ "./src/shared/CardsList/cardslist.css"));
 const Card_1 = __webpack_require__(/*! ./Card/Card */ "./src/shared/CardsList/Card/Card.tsx");
+const axios_1 = __importDefault(__webpack_require__(/*! axios */ "axios"));
+const react_redux_1 = __webpack_require__(/*! react-redux */ "react-redux");
 function CardsList() {
+    const token = (0, react_redux_1.useSelector)(state => state.token);
+    const [posts, setPosts] = (0, react_1.useState)([]);
+    const [loading, setLoading] = (0, react_1.useState)(false);
+    const [errorLoading, setErrorLoading] = (0, react_1.useState)('');
+    const [nextAfter, setNextAfter] = (0, react_1.useState)('');
+    const bottomOfList = (0, react_1.useRef)(null);
+    (0, react_1.useEffect)(() => {
+        if (!token)
+            return;
+        function load() {
+            return __awaiter(this, void 0, void 0, function* () {
+                setLoading(true);
+                setErrorLoading('');
+                try {
+                    const response = yield axios_1.default.get('https://oauth.reddit.com/rising/', {
+                        headers: { Authorization: `bearer ${token}` },
+                        params: {
+                            limit: 4,
+                            after: nextAfter,
+                        }
+                    });
+                    setNextAfter(response.data.data.after);
+                    setPosts((prevChildren) => prevChildren.concat(...response.data.data.children));
+                    console.log(response.data.data.children[0].data.url);
+                }
+                catch (error) {
+                    setErrorLoading(String(error));
+                }
+                setLoading(false);
+            });
+        }
+        const observer = new IntersectionObserver((entries) => {
+            if (entries[0].isIntersecting) {
+                load();
+                console.log('load');
+            }
+        }, {
+            rootMargin: '10px'
+        });
+        if (bottomOfList.current) {
+            observer.observe(bottomOfList.current);
+        }
+        return () => {
+            if (bottomOfList.current) {
+                observer.unobserve(bottomOfList.current);
+            }
+        };
+    }, [bottomOfList.current, nextAfter, token]);
     return (react_1.default.createElement("ul", { className: cardslist_css_1.default.cardsList },
-        react_1.default.createElement(Card_1.Card, null),
-        react_1.default.createElement(Card_1.Card, null)));
+        posts.map((post) => (react_1.default.createElement(Card_1.Card, { key: post.data.id, title: post.data.title, author: post.data.author, url: post.data.url }))),
+        react_1.default.createElement("div", { ref: bottomOfList }),
+        loading && (react_1.default.createElement("div", { style: { textAlign: 'center' } }, "\u0417\u0430\u0433\u0440\u0443\u0437\u043A\u0430.....")),
+        errorLoading && (react_1.default.createElement("div", { style: { textAlign: 'center' } }, errorLoading))));
 }
 exports.CardsList = CardsList;
 

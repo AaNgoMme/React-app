@@ -1,12 +1,17 @@
 import React from 'react';
 import styles from './preview.css';
 
-export function Preview() {
+interface ICardProps {
+  url: string
+}
+
+
+export function Preview({url}: ICardProps) {
   return (
     <div className={styles.preview}>
       <img
         className={styles.previewImg}
-        src="https://cdn.botanichka.ru/wp-content/uploads/2021/01/rasteniya-lekarstva-dikie-derevya-01.jpg"
+        src={url}
       />
     </div>
   );
