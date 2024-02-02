@@ -10,13 +10,14 @@ interface ICardProps {
   title: string
   author: string
   url: string
+  is_video: boolean
 }
 
-export function Card({ title, author, url}: ICardProps) {
+export function Card({ title, author, url, is_video}: ICardProps) {
   return (
     <li className={styles.card}>
         <TextContent title={title} author={author} />
-        <Preview url={url} />
+        <Preview url={url} is_video={is_video} />
         <Menu />
         <Controls />
     </li>

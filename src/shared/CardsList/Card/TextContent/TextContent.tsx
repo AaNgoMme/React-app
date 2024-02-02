@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './textcontent.css';
-import { Post } from '../../Post';
+import { Link } from 'react-router-dom';
 
 
 interface ICardProps {
@@ -11,7 +11,6 @@ interface ICardProps {
 
 export function TextContent({ title, author }: ICardProps) {
 
-  const [isModalOpend, setIsModalOpend] = React.useState(false)
    
   return (
     <div className={styles.textContent}>
@@ -29,19 +28,10 @@ export function TextContent({ title, author }: ICardProps) {
         </span>
       </div>
       <h2 className={styles.title}>
-        <a href="#post-url" className={styles.postLink} onClick={(e) => {
-          e.stopPropagation()
-          setIsModalOpend(true)}
-          }>
+        <Link to="/posts/123" className={styles.postLink}>
           {title}
-        </a>
+        </Link>
       </h2>
-      
-      {isModalOpend && (
-        <Post onClose={() => {
-          setIsModalOpend(false)
-        }} />
-      )}
     </div>
   );
 }

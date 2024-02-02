@@ -1,11 +1,18 @@
-.preview {
-    max-height: 178px;
-}
 
 .previewImg {
     width: 100%;
     height: 100%;
     object-fit: cover;
+}
+
+@media all and (min-width: 500px) {
+    .preview {
+        max-height: 400px;
+    }
+
+    .previewImg {
+        object-fit: contain;
+    }
 }
 
 @media all and (min-width: 1024px) {
@@ -19,3 +26,4 @@
         object-fit: cover;
     }
 }
+

@@ -15,7 +15,8 @@ import { legacy_createStore, applyMiddleware, Middleware, Action } from 'redux'
 import { Provider } from 'react-redux'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import { thunk } from 'redux-thunk'
-
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { Post } from './shared/CardsList/Post'
 
 /* const logger: Middleware = (store) => (next) => (action) => {
     console.log('dispatching:', action)
@@ -43,6 +44,13 @@ const LIST = [
 ].map(generateID)
 
 function AppComponent() {
+
+    const [mounted, setMounted] = useState(false)
+
+    useEffect (() => {
+        setMounted(true)
+    })
+
     const [list, setList] = useState(LIST)
 
     const handleItemClick = (id: string) => {
@@ -55,32 +63,39 @@ function AppComponent() {
 
     return (
         <Provider store={store}>
-                        <Layout>
-                            <Header />
-                            <Content>
-                                <CardsList />
-                                <GenericList list={list.map((item) => ({ ...item, onClick: handleItemClick }))} />
-                                <div style={{ padding: 20 }}>
-                                    <br />
-                                    <Dropdown
-                                        isOpen={false}
-                                        button={<button>Open list</button>}>
-                                        <ul>
-                                            <li>1</li>
-                                            <li>2</li>
-                                            <li>3</li>
-                                            <li>4</li>
-                                        </ul>
-                                    </Dropdown>
-                                </div>
-                                <Text As={'h1'} size={28} color={EColor.orange}>
-                                    Это это
-                                </Text>
-                                <Text size={28} color={EColor.green}>
-                                    Это то
-                                </Text>
-                            </Content>
-                        </Layout>
+            {mounted && (
+                <BrowserRouter>
+                <Layout>
+                    <Header />
+                    <Content>
+                        <CardsList />
+                        <Routes>
+                            <Route path='/posts/:id' element={<Post />} />
+                        </Routes>
+                        <GenericList list={list.map((item) => ({ ...item, onClick: handleItemClick }))} />
+                        <div style={{ padding: 20 }}>
+                            <br />
+                            <Dropdown
+                                isOpen={false}
+                                button={<button>Open list</button>}>
+                                <ul>
+                                    <li>1</li>
+                                    <li>2</li>
+                                    <li>3</li>
+                                    <li>4</li>
+                                </ul>
+                            </Dropdown>
+                        </div>
+                        <Text As={'h1'} size={28} color={EColor.orange}>
+                            Это это
+                        </Text>
+                        <Text size={28} color={EColor.green}>
+                            Это то
+                        </Text>
+                    </Content>
+                </Layout>
+            </BrowserRouter>
+            )}
         </Provider>
     )
 }

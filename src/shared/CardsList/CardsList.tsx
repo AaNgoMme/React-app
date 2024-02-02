@@ -24,17 +24,18 @@ export function CardsList() {
       setErrorLoading('')
 
       try {
-        const response = await axios.get('https://oauth.reddit.com/rising/', {
+        const response = await axios.get('https://oauth.reddit.com/new/', {
           headers: { Authorization: `bearer ${token}` },
           params: {
             limit: 4,
             after: nextAfter,
+            
           }
         })
 
         setNextAfter(response.data.data.after)
         setPosts((prevChildren: any[]) => prevChildren.concat(...response.data.data.children))
-        console.log(response.data.data.children[0].data.url)
+
       } catch (error) {
         setErrorLoading(String(error))
       }
@@ -65,12 +66,13 @@ export function CardsList() {
 
   return (
     <ul className={styles.cardsList}>
-      {posts.map((post: { data: { id: React.Key | null | undefined; title: string; author: string; url: string }; }) => (
+      {posts.map((post: { data: { id: React.Key | null | undefined; title: string; author: string; url: string, is_video: boolean }; }) => (
         <Card 
           key={post.data.id}
           title={post.data.title}
           author={post.data.author}
           url={post.data.url}
+          is_video={post.data.is_video}
         />
       ))}
 
