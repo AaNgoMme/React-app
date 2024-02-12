@@ -13,10 +13,6 @@ hmrServer.use(webpackDevMiddleware(clientCompiler, {
     publicPath: webpackClientConfig.output.publicPath,
     serverSideRender: true,
     writeToDisk: true,
-/*     noInfo: true,
-    watchOptions: {
-        ignore: /dist/,
-    }, */
     stats: 'errors-only'
 }))
 

@@ -4,4 +4,4 @@ module.exports = {
   testEnvironment: 'node',
   setupFilesAfterEnv: ["<rootDir>/jest.setup.js"],
   snapshotSerializers: ["enzyme-to-json/serializer"]
-};
+}
