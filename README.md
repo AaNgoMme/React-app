@@ -1,6 +1,6 @@
 # React App from Reddit
 
-React components, registration via Reddit, uploading posts from Reddit, and more
+React components, registration via Reddit, uploading posts from Reddit, and more...
 
 ## Available Scripts
 
